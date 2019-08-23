@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="container">
+                <div class='card z-depth-2'>
+                    <div class='card-content'>
+                        <h1 class='active blue-text text-darken-4'>Register</h1>
+                        <div class='row'>
+                            <form id="register-form" class='mt-3' action="register" method="POST">
+                                {% csrf_token %}
+                                <div class='input-field'>
+                                    <input id='register-fname' type="text" name='fname' required />
+                                    <label htmlFor='register-fname'>First name</label>
+                                </div>
+                                <div class='input-field'>
+                                    <input id='register-lname' type="text" name='lname' required />
+                                    <label htmlFor='register-lname'>Last name</label>
+                                </div>
+                                <div class='input-field'>
+                                    <input id='register-email' type='email' class='validate' name='email' required />
+                                    <label htmlFor='register-email'>Email</label>
+                                </div>
+                                <div class='input-field'>
+                                    <input id='register-password' type='password' class='validate' name='password'
+                                        required />
+                                    <label htmlFor='register-password'>Password</label>
+                                </div>
+                                <div class='input-field'>
+                                    <input id='confirmPassword' type='password' class='validate' name='confirmPassword'
+                                        required />
+                                    <label htmlFor='confirmPassword'>Confirm Password</label>
+                                </div>
+                                <div class='center mt-2'>
+                                    <button id="subBtn" class='btn waves-effect waves-light btn-medium blue darken-4'
+                                        type='submit' name='action'>
+                                        Register
+                                    </button>
+                                </div>
+                                <br>
+                                <a href="login">Already Registerd? Please Login</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for m in messages %}
+    <script>M.toast({ html: "{{m}}", classes: 'red-text text-accent-4' })</script>
+    {% endfor %}
+    <!-- {% load static %}
+    <script src="{% static '/accounts/registerJS.js' %}"></script> -->
+</body>
+
+</html>

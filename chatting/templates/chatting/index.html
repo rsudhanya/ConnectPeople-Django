@@ -1,30 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Chat</title>
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</head>
+  </head>
 
-<body>
-    <div class="container">
-        {% csrf_token %}
-        <h1>Hello {{user.first_name}}</h1>
-        <a href="/accounts/logout" class="btn">Logout</a>
+  <body>
+    {% csrf_token %}
+    <div class="navbar-fixed">
+      <nav class="blue darken-4">
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">
+            Connect People
+          </a>
 
+          <ul class="right">
+            <li>Hello {{ user.first_name }}</li>
+            <li><a href="/accounts/logout">Log out</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
 
+    <div class="chat-wrapper">
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card-panel">
+            <span class="blue-text"
+              >I am a very simple card. I am good at containing small bits of
+              information. I am convenient because I require little markup to
+              use effectively. I am similar to what is called a panel in other
+              frameworks.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m2"></div>
+        <div class="col s12 m4">
+          <div class="card-panel">
+            <span class="blue-text"
+              >I am a very simple card. I am good at containing small bits of
+              information. I am convenient because I require little markup to
+              use effectively. I am similar to what is called a panel in other
+              frameworks. Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Maiores laudantium, asperiores placeat, consequuntur quos id
+              fuga ab non in modi quae corrupti ea repellat eveniet voluptate
+              dolore unde necessitatibus ex Lorem ipsum, dolor sit amet
+              consectetur adipisicing elit. Vel quod amet deleniti, neque
+              aperiam temporibus, cumque incidunt nam, nisi asperiores nesciunt
+              eligendi numquam quas repudiandae. Velit aperiam cumque, eum ipsam
+              reiciendis blanditiis et nisi officiis iste amet animi officia,
+              sed, dicta commodi? Voluptas, unde, porro veniam commodi odio
+              autem nobis maxime, delectus placeat corrupti error nam alias
+              necessitatibus temporibus! Cum magni rem perspiciatis nisi aut
+              dolorum harum? Et corporis explicabo reiciendis odio tempora
+              similique minima ad, commodi animi maxime ex ipsa? Iusto suscipit,
+              eaque mollitia ipsam dolores nobis autem non?
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m2"></div>
+        <div style="height: 50vh !important" class="col s12 m4">
+          <div class="card-panel">
+            <span class="blue-text"
+              >I am a very simple card. I am good at containing small bits of
+              information. I am convenient because I require little markup to
+              use effectively. I am similar to what is called a panel in other
+              frameworks.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card-panel">
+            <span class="blue-text"
+              >I am a very simple card. I am good at containing small bits of
+              information. I am convenient because I require little markup to
+              use effectively. I am similar to what is called a panel in other
+              frameworks.
+            </span>
+          </div>
+        </div>
+    </div>
+    </div>
+    <div class="chat-input" style="position: fixed; bottom: 0; left: 0; width: 85vw; background: red;">
+      <div class="row">
+        <div class="col s12 m5">
+          <div class="card-panel">
+            <span class="blue-text"> </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     {% for m in messages %}
-    <script>M.toast({ html: "{{m}}", classes: 'red-text text-accent-4' })</script>
+    <script>
+      M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+    </script>
     {% endfor %}
-
-</body>
-
+  </body>
 </html>

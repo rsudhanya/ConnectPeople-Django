@@ -1,119 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Chat</title>
-    <!-- Compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  </head>
 
-  <body>
-    {% csrf_token %}
-    <div class="navbar-fixed">
-      <nav class="blue darken-4">
-        <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">
-            Connect People
-          </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Chat</title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-          <ul class="right">
-            <li>Hello {{ user.first_name }}</li>
-            <li><a href="/accounts/logout">Log out</a></li>
-          </ul>
-        </div>
-      </nav>
+  <!-- jQuery -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'chatting/css/chatting.css' %}" />
+</head>
+
+<body>
+  <div class="navbar-fixed">
+    <nav class="blue darken-4">
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">
+          Connect People
+        </a>
+        <ul class="right">
+          <li>Hello {{ user.first_name }}</li>
+          <li><a href="/accounts/logout">Log out</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="row">
+    <div id="msgwindow" class="col s8 card-panel" style="height: 470px; margin-bottom: 0; overflow: auto;">
+      {% for m in msg %}
+      {% ifequal m.msender|stringformat:"s" user.username %}
+      <div class="card-panel blue lighten-2">
+        <span class="white-text" style="float: right; font-size: 1.3rem">
+          {{ m.mbody }}</span>
+        <br />
+        <br />
+        <span style="float: right; font-size: .7rem;" class="blue-text text-lighten-2;">{{ m.mdate }}</span>
+      </div>
+      {% else %}
+      <div class="card-panel">
+        <span style=" float: left; font-size: 1.3rem">{{ m.mbody }}</span>
+        <br />
+        <br />
+        <span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">{{ m.mdate }}</span>
+      </div>
+      {% endifequal %}
+      {% endfor %}
     </div>
-
-    <div class="chat-wrapper">
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="card-panel">
-            <span class="blue-text"
-              >I am a very simple card. I am good at containing small bits of
-              information. I am convenient because I require little markup to
-              use effectively. I am similar to what is called a panel in other
-              frameworks.
-            </span>
+    <div class="col s4">6-columns (one-half)</div>
+  </div>
+  <div class="row">
+    <form id="msgform" method="POST" action="/">
+      {% csrf_token %}
+      <div class="col s8 card-panel" style="position: fixed; margin-top: 0; height: 80px; overflow-x: auto;
+      white-space: nowrap;">
+        <div class="row">
+          <div class="input-field col s11" style="color: #0d47a1;">
+            <textarea id="textarea1" class="materialize-textarea" name="message"></textarea>
+            <label style="color: #0d47a1" for="textarea1">Type a message</label>
+          </div>
+          <div class="col s1">
+            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" id="msgsend">
+              <i class="medium material-icons blue-text">send</i>
+            </button>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col s12 m2"></div>
-        <div class="col s12 m4">
-          <div class="card-panel">
-            <span class="blue-text"
-              >I am a very simple card. I am good at containing small bits of
-              information. I am convenient because I require little markup to
-              use effectively. I am similar to what is called a panel in other
-              frameworks. Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Maiores laudantium, asperiores placeat, consequuntur quos id
-              fuga ab non in modi quae corrupti ea repellat eveniet voluptate
-              dolore unde necessitatibus ex Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Vel quod amet deleniti, neque
-              aperiam temporibus, cumque incidunt nam, nisi asperiores nesciunt
-              eligendi numquam quas repudiandae. Velit aperiam cumque, eum ipsam
-              reiciendis blanditiis et nisi officiis iste amet animi officia,
-              sed, dicta commodi? Voluptas, unde, porro veniam commodi odio
-              autem nobis maxime, delectus placeat corrupti error nam alias
-              necessitatibus temporibus! Cum magni rem perspiciatis nisi aut
-              dolorum harum? Et corporis explicabo reiciendis odio tempora
-              similique minima ad, commodi animi maxime ex ipsa? Iusto suscipit,
-              eaque mollitia ipsam dolores nobis autem non?
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 m2"></div>
-        <div style="height: 50vh !important" class="col s12 m4">
-          <div class="card-panel">
-            <span class="blue-text"
-              >I am a very simple card. I am good at containing small bits of
-              information. I am convenient because I require little markup to
-              use effectively. I am similar to what is called a panel in other
-              frameworks.
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="card-panel">
-            <span class="blue-text"
-              >I am a very simple card. I am good at containing small bits of
-              information. I am convenient because I require little markup to
-              use effectively. I am similar to what is called a panel in other
-              frameworks.
-            </span>
-          </div>
-        </div>
-    </div>
-    </div>
-    <div class="chat-input" style="position: fixed; bottom: 0; left: 0; width: 85vw; background: red;">
-      <div class="row">
-        <div class="col s12 m5">
-          <div class="card-panel">
-            <span class="blue-text"> </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </form>
+  </div>
 
-    {% for m in messages %}
-    <script>
-      M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
-    </script>
-    {% endfor %}
-  </body>
+  {% load static %}
+  <script src="{% static 'chatting/javascript/mainajax.js' %}"></script>
+
+  {% for m in messages %}
+  <script>
+    M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+  </script>
+  {% endfor %}
+</body>
+
 </html>

@@ -1,12 +1,12 @@
-textarea1 = document.getElementById("textarea1");
-msgsend = document.getElementById("msgsend");
-msgwindow = document.getElementById("msgwindow");
 friendlist = document.getElementById("friendlist");
 searchFriends = document.getElementById("searchFriends");
-frndname = document.getElementById("frndname");
 mainAppWindow = document.getElementById("mainAppWindow")
 
 var mcounter = 0
+
+var textarea1;
+var msgsend;
+var msgwindow;
 
 function formatDate(date) {
   var monthNames = [
@@ -47,16 +47,21 @@ window.onload = () =>
         });
         if(mrc != '')
         {
-            
+            mainAppWindow.innerHTML = `<ul class="collection with-header"><li class="collection-item avatar"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle"><h5 id="frndname" class="blue-text text-darken-4"></h5></li></ul><div id="msgwindow" class="card-panel" style="height: 370px; margin-bottom: 0; overflow: auto;"></div><div class=""><div class="row"><div class="input-field col s11" style="color: #0d47a1;"><textarea id="textarea1" class="materialize-textarea" name="message"></textarea><label style="color: #0d47a1" for="textarea1">Type a message</label></div><div class="col s1"><button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" ><i id="msgsend" class="medium material-icons blue-text">send</i></button></div></div></div>`
             msglist.forEach(element => {
                 if(element['fields']['msender'] == uid)
-                    msgwindow.innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${element['fields']['mbody']}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date(element['fields']['mdate']))}</span></div>`;
+                    document.getElementById("msgwindow").innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${element['fields']['mbody']}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date(element['fields']['mdate']))}</span></div>`;
                 else
-                    msgwindow.innerHTML += `<div id=${mcounter.toString()} class="card-panel"><span style=" float: left; font-size: 1.3rem">${element['fields']['mbody']}</span><br /><br /><span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">${formatDate(new Date(element['fields']['mdate']))}</span></div>`;
+                    document.getElementById("msgwindow").innerHTML += `<div id=${mcounter.toString()} class="card-panel"><span style=" float: left; font-size: 1.3rem">${element['fields']['mbody']}</span><br /><br /><span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">${formatDate(new Date(element['fields']['mdate']))}</span></div>`;
                 mcounter ++;
             });
-            document.getElementById((mcounter - 1).toString()).scrollIntoView();
-            frndname.innerHTML = mrc_fname + ' ' + mrc_lname;
+            if(mcounter != 0)
+                document.getElementById((mcounter - 1).toString()).scrollIntoView();
+            document.getElementById("frndname").innerHTML = mrc_fname + ' ' + mrc_lname;
+
+            textarea1 = document.getElementById("textarea1");
+            msgsend = document.getElementById("msgsend");
+            msgwindow = document.getElementById("msgwindow");
         }
 
     } catch (error) {
@@ -90,18 +95,23 @@ chatSocket.onclose = function (e) {
     console.error('Chat socket closed unexpectedly');
 };
 
-msgsend.addEventListener('click', () => {
-    if (textarea1.value !== "") {
-      var message = textarea1.value.trim();
-      textarea1.value = "";
-      msgwindow.scrollTo(msgwindow.offsetHeight, msgwindow.offsetHeight);
-      chatSocket.send(JSON.stringify({
-        'message': message,
-        'msender': user,
-        'mrc': mrc
-      }));
-      msgwindow.innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${message}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date())}</span></div>`;
-      mcounter ++;
-      document.getElementById((mcounter - 1).toString()).scrollIntoView();
-  }
-});
+document.addEventListener('click', e => {
+    if(e.srcElement.id == 'msgsend') {
+          if (textarea1.value !== "") {
+            var message = textarea1.value.trim();
+            textarea1.value = "";
+            msgwindow.scrollTo(msgwindow.offsetHeight, msgwindow.offsetHeight);
+            chatSocket.send(JSON.stringify({
+              'message': message,
+              'msender': user,
+              'mrc': mrc
+            }));
+            msgwindow.innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${message}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date())}</span></div>`;
+            mcounter ++;
+            document.getElementById((mcounter - 1).toString()).scrollIntoView();
+        }
+     }
+ });
+// msgsend.addEventListener('click', () => {
+    
+// });

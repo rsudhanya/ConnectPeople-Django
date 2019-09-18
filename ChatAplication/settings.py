@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'chatting',
     'accounts',
     'django.contrib.admin',
@@ -70,6 +71,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ChatAplication.wsgi.application'
+
+ASGI_APPLICATION = 'ChatAplication.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

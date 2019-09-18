@@ -35,56 +35,87 @@
   </div>
 
   <div class="row">
-    <div id="msgwindow" class="col s8 card-panel" style="height: 470px; margin-bottom: 0; overflow: auto;">
-      {% for m in msg %}
-      {% ifequal m.msender|stringformat:"s" user.username %}
-      <div class="card-panel blue lighten-2">
-        <span class="white-text" style="float: right; font-size: 1.3rem">
-          {{ m.mbody }}</span>
-        <br />
-        <br />
-        <span style="float: right; font-size: .7rem;" class="blue-text text-lighten-2;">{{ m.mdate }}</span>
-      </div>
-      {% else %}
-      <div class="card-panel">
-        <span style=" float: left; font-size: 1.3rem">{{ m.mbody }}</span>
-        <br />
-        <br />
-        <span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">{{ m.mdate }}</span>
-      </div>
-      {% endifequal %}
-      {% endfor %}
-    </div>
-    <div class="col s4">6-columns (one-half)</div>
-  </div>
-  <div class="row">
-    <form id="msgform" method="POST" action="/">
-      {% csrf_token %}
-      <div class="col s8 card-panel" style="position: fixed; margin-top: 0; height: 80px; overflow-x: auto;
-      white-space: nowrap;">
+
+    <div class="col s8">
+
+      <div id="mainAppWindow">
+        <ul class="collection with-header">
+            <li class="collection-item avatar"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle">
+              <h5 id="frndname" class="blue-text text-darken-4"></h5>
+            </li>
+          </ul>
+      <div id="msgwindow" class="card-panel" style="height: 370px; margin-bottom: 0; overflow: auto;"></div>
+      <div class="">
         <div class="row">
           <div class="input-field col s11" style="color: #0d47a1;">
             <textarea id="textarea1" class="materialize-textarea" name="message"></textarea>
             <label style="color: #0d47a1" for="textarea1">Type a message</label>
           </div>
           <div class="col s1">
-            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" id="msgsend">
+            <button
+              style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;"
+              id="msgsend">
               <i class="medium material-icons blue-text">send</i>
             </button>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
 
-  {% load static %}
-  <script src="{% static 'chatting/javascript/mainajax.js' %}"></script>
+    </div>
 
-  {% for m in messages %}
-  <script>
-    M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
-  </script>
-  {% endfor %}
+    <div class="col s4">
+      <ul class="collection with-header">
+        <li class="collection-header">
+          <h4 class="blue-text">Your friends</h4>
+        </li>
+      </ul>
+      <ul id="friendlist" class="collection" style="height: 355px; margin-bottom: 0; overflow: auto;"></ul>
+      <div class="input-field col s12" style="color: #0d47a1;">
+        <i style="color: #0d47a1" class="material-icons prefix">account_circle</i>
+        <input id="searchFriends" type="text">
+        <label for="searchFriends">Search...</label>
+      </div>
+    </div>
+
+
+
+
+    <script>
+      var roomName = {{ room_name_json }};
+      var user = "{{ user.username }}";
+      var mrc = "{{ rc.username }}";
+      var mrc_fname = "{{ rc.first_name }}";
+      var mrc_lname = "{{ rc.last_name }}";
+      var msglist = JSON.parse({{ msglist }});
+      var uid = "{{ user.id }}";
+      var friends = JSON.parse({{ friends }});
+    </script>
+
+
+
+
+
+
+    <!-- {% load static %}
+  <script src="{% static 'chatting/javascript/mainajax.js' %}"></script> -->
+    {% load staticfiles %}
+    <script src="{% static 'channels/js/websocketbridge.js' %}"></script>
+
+
+
+
+
+
+    {% for m in messages %}
+    <script>
+      M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+    </script>
+    {% endfor %}
+
+
+    
+
 </body>
 
 </html>

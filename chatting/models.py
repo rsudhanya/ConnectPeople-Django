@@ -5,6 +5,7 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class Message(models.Model):
     msender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -18,3 +19,6 @@ class Message(models.Model):
     )
     mbody = models.TextField()
     mdate = models.DateTimeField()
+
+    def toDic(self):
+        return {'msender': self.msender, 'mreceiver': self.mreceiver, 'mbody': self.mbody, 'mdate': self.mdate}

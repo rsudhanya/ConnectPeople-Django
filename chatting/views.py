@@ -15,15 +15,12 @@ from .models import Message
 def index(request, frndname=""):
     user = request.user
     if (user.is_authenticated):
-        friends = serializers.serialize("json", User.objects.all())
+        friends = serializers.serialize("json", User.objects.filter(is_superuser=False))
         try:
             msglist = []
             rc = User.objects.get(username=frndname)
-            for i in Message.objects.all():
-                t = i.toDic()
-                if((t['msender'] == user and t['mreceiver'] == rc) or (t['mreceiver'] == user and t['msender'] == rc)):
-                    msglist.append(i)
-            msglist = serializers.serialize("json", msglist)
+            msglist = serializers.serialize("json", (Message.objects.filter(msender=user, mreceiver=rc) | Message.objects.filter(msender=rc, mreceiver=user)).order_by('mdate'))
+            print(msglist)
             room_name = "chatRoom"
         except:
             room_name = ""

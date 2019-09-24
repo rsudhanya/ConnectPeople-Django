@@ -1,5 +1,5 @@
 {
-    "name": "Django Channels Heroku",
+    "name": "ChatApplication",
     "description": "Running a simple chat on Heroku",
     "repository": "https://github.com/rsudhanya/ConnectPeople-Django.git",
     "keywords": ["django", "channels", "websockets", "heroku"],

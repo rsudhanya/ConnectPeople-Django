@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 import json
 from django.core import serializers
+from django.http import Http404  
 
 from .models import Message
 
@@ -20,12 +21,13 @@ def index(request, frndname=""):
             msglist = []
             rc = User.objects.get(username=frndname)
             msglist = serializers.serialize("json", (Message.objects.filter(msender=user, mreceiver=rc) | Message.objects.filter(msender=rc, mreceiver=user)).order_by('mdate'))
-            print(msglist)
             room_name = "chatRoom"
         except:
             room_name = ""
             msglist = "[{}]"
             rc = ""
+            if(frndname != ""):
+                raise Http404  
         return render(request, 'chatting/index.html', {'room_name_json': mark_safe(json.dumps(room_name)), 'friends': mark_safe(json.dumps(friends)), 'msglist': mark_safe(json.dumps(msglist)), 'rc': rc})
     else:
         messages.info(request, "Please authenticate first")

@@ -26,3 +26,4 @@ Twisted==18.9.0
 txaio==18.8.1
 whitenoise==4.1
 zope.interface==4.5.0
+sqlparse==0.2.4

@@ -90,10 +90,15 @@ searchFriends.addEventListener ('keyup', e => {
     });
 });
 
-
+if (window.location.protocol === 'https:') {
+    protocol = 'wss:';
+var protocol = '';
+} else {
+    protocol = 'ws:';
+}
 
 var chatSocket = new WebSocket(
-    'ws://' + window.location.host +
+    protocol + '//' + window.location.host +
     '/ws/chat/' + roomName + '/');
 
 chatSocket.onmessage = function (e) {

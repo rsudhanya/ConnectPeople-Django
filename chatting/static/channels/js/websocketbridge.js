@@ -90,9 +90,9 @@ searchFriends.addEventListener ('keyup', e => {
     });
 });
 
+var protocol = '';
 if (window.location.protocol === 'https:') {
     protocol = 'wss:';
-var protocol = '';
 } else {
     protocol = 'ws:';
 }

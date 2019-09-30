@@ -22,3 +22,13 @@ class Message(models.Model):
 
     def toDic(self):
         return {'msender': self.msender, 'mreceiver': self.mreceiver, 'mbody': self.mbody, 'mdate': self.mdate}
+
+class UserConsumerSession(models.Model):
+    on_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
+
+    def __str__(self):
+        return str(self.on_user)

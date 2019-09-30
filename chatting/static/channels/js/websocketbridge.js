@@ -44,7 +44,7 @@ window.onload = () =>
     try {
      
         friends.forEach(element => {
-            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}</a></li>`
+            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}<div id=${element['fields']['username'] + "active"} class="secondary-content"></div></a></li>`
         });
         if(mrc != '')
         {
@@ -103,14 +103,33 @@ var chatSocket = new WebSocket(
 
 chatSocket.onmessage = function (e) {
     var data = JSON.parse(e.data);
-    var message = data['message'];
-    var s = data['msender'];
-    var r = data['mrc'];
-    var tz = data['tz'];
-    if(r === user){
-        msgwindow.innerHTML += `<div id=${mcounter.toString()} class="card-panel"><span style=" float: left; font-size: 1.3rem">${message}</span><br /><br /><span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">${formatDate(new Date(tz))}</span></div>`;  
-        mcounter ++;
-        document.getElementById((mcounter - 1).toString()).scrollIntoView();
+    switch(data['ctype'])
+    {
+        case 'mtext':
+        var message = data['message'];
+        var s = data['msender'];
+        var r = data['mrc'];
+        var tz = data['tz'];
+        if(r === user){
+            msgwindow.innerHTML += `<div id=${mcounter.toString()} class="card-panel"><span style=" float: left; font-size: 1.3rem">${message}</span><br /><br /><span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">${formatDate(new Date(tz))}</span></div>`;  
+            mcounter ++;
+            document.getElementById((mcounter - 1).toString()).scrollIntoView();
+        }
+        break;
+
+        case 'Ncon':
+        console.log(data);
+        var temp = document.getElementById(data['Ncon'] + "active");
+        if(temp.innerHTML === '')
+            temp.innerHTML = `<i class="material-icons blue-text text-darken-4">grade</i>`;
+        break;
+
+        case 'Dcon':
+        console.log(data);
+        var temp = document.getElementById(data['Dcon'] + "active");
+        if(temp.innerHTML !== '')
+            temp.innerHTML = '';
+        break;
     }
 };
 
@@ -127,7 +146,8 @@ document.addEventListener('click', e => {
             chatSocket.send(JSON.stringify({
               'message': message,
               'msender': user,
-              'mrc': mrc
+              'mrc': mrc,
+              'ctype': 'mtext'
             }));
             msgwindow.innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${message}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date())}</span></div>`;
             mcounter ++;

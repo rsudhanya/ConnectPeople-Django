@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, auth
 from django.utils import timezone
 
 from .models import Message
+from .models import UserConsumerSession
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -18,8 +19,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
+        UserConsumerSession.objects.create(on_user=User.objects.get(username=str(self.scope["user"].username)))
+        for i in UserConsumerSession.objects.all():
+            await self.receive({'type':'chat_message','ctype': 'Ncon', 'Ncon': str(i.on_user)})
 
     async def disconnect(self, close_code):
+        UserConsumerSession.objects.filter(on_user=User.objects.get(username=str(self.scope["user"].username))).delete()
+        await self.receive({'type':'chat_message','ctype': 'Dcon', 'Dcon': str(self.scope["user"].username)})
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -28,36 +34,55 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        msender = text_data_json['msender']
-        mrc = text_data_json['mrc']
-        tz = str(timezone.localtime(timezone.now()))
-        Message.objects.create(msender=User.objects.get(username=msender), mreceiver=User.objects.get(username=mrc), mbody=message, mdate=tz)
+        try:
+            text_data_json = json.loads(text_data)
+            message = text_data_json['message']
+            msender = text_data_json['msender']
+            mrc = text_data_json['mrc']
+            tz = str(timezone.localtime(timezone.now()))
+            ctype = text_data_json['ctype']
+            #Message.objects.create(msender=User.objects.get(username=msender), mreceiver=User.objects.get(username=mrc), mbody=message, mdate=tz)
 
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message,
-                'msender': msender,
-                'mrc': mrc,
-                'tz': tz
-            }
-        )
+            # Send message to room group
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'ctype': ctype,
+                    'message': message,
+                    'msender': msender,
+                    'mrc': mrc,
+                    'tz': tz
+                }
+            )
+        except:
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                text_data
+            )
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event['message']
-        msender = event['msender']
-        mrc =  event['mrc']
-        tz = str(timezone.localtime(timezone.now()))
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message,
-            'msender': msender,
-            'mrc': mrc,
-            'tz': tz
-        }))
+        try:
+            # # Send message to WebSocket
+            await self.send(text_data=json.dumps({
+                'type': event['type'],
+                'message': event['message'],
+                'msender': event['msender'],
+                'mrc': event['mrc'],
+                'tz': str(timezone.localtime(timezone.now())),
+                'ctype': event['ctype']
+            }))
+        except:
+            try:
+                await self.send(text_data=json.dumps({
+                    'type': event['type'],
+                    'ctype': event['ctype'],
+                    'Ncon': event['Ncon']
+                }))
+            except:
+                await self.send(text_data=json.dumps({
+                    'type': event['type'],
+                    'ctype': event['ctype'],
+                    'Dcon': event['Dcon']
+                }))

@@ -15,15 +15,14 @@ from .models import Message
 
 def index(request, frndname=""):
     user = request.user
+    room_name = "chatRoom"
     if (user.is_authenticated):
         friends = serializers.serialize("json", User.objects.filter(is_superuser=False))
         try:
             msglist = []
             rc = User.objects.get(username=frndname)
             msglist = serializers.serialize("json", (Message.objects.filter(msender=user, mreceiver=rc) | Message.objects.filter(msender=rc, mreceiver=user)).order_by('mdate'))
-            room_name = "chatRoom"
         except:
-            room_name = ""
             msglist = "[{}]"
             rc = ""
             if(frndname != ""):

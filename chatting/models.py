@@ -29,6 +29,5 @@ class UserConsumerSession(models.Model):
         on_delete=models.CASCADE,
         related_name='+',
     )
-
-    def __str__(self):
-        return str(self.on_user)
+    last_seen = models.DateTimeField()
+    online = models.BooleanField()

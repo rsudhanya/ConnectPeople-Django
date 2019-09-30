@@ -118,17 +118,11 @@ chatSocket.onmessage = function (e) {
         break;
 
         case 'Ncon':
-        console.log(data);
-        var temp = document.getElementById(data['Ncon'] + "active");
-        if(temp.innerHTML === '')
-            temp.innerHTML = `<i class="material-icons blue-text text-darken-4">grade</i>`;
+        document.getElementById(data['Ncon'] + "active").innerHTML = `<i class="material-icons blue-text text-darken-4">grade</i>`;
         break;
 
         case 'Dcon':
-        console.log(data);
-        var temp = document.getElementById(data['Dcon'] + "active");
-        if(temp.innerHTML !== '')
-            temp.innerHTML = '';
+        document.getElementById(data['Dcon'] + "active").innerHTML = `<i class="blue-text text-datken-4">${formatDate(new Date(data['last_seen']))}</i>`;
         break;
     }
 };

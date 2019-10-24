@@ -14,7 +14,6 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,12 +26,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qda-__so-wl*$diq@_zmk(twj@a#erro#t=k*yblev@dv^a$l-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 
+
+#By default
+# DEBUG = True
 # ALLOWED_HOSTS = []
 
-DEBUG = os.environ.get('DEBUG', True)
-
+#For EC2 Hosting
+DEBUG = os.environ.get('DEBUG', False)
 ALLOWED_HOSTS = ['*']
 
 
@@ -89,18 +90,24 @@ ASGI_APPLICATION = 'ChatAplication.routing.application'
 #         },
 #     },
 # }
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         },
+#     },
+# }
+
+#For EC2 Hosting 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+            "hosts": [os.environ.get('REDIS_URL', 'redis://0.0.0.0:6379')],
         },
     },
 }
-
-IS_CI = os.environ.get('IS_CI', False)
-if not IS_CI:
-    django_heroku.settings(locals())
 
 
 # Database
@@ -113,6 +120,7 @@ if not IS_CI:
 #     }
 # }
 
+# djongo database
 DATABASES = {
         'default': {
         'ENGINE': 'djongo',

@@ -15,8 +15,8 @@
   <!-- jQuery -->
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'chatting/css/chatting.css' %}" />
+  <!-- {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'chatting/css/chatting.css' %}" /> -->
 </head>
 
 <body>
@@ -54,6 +54,8 @@
       </div>
     </div>
 
+  </div>
+
 
     <script>
       var roomName = {{ room_name_json }};
@@ -68,10 +70,10 @@
 
 
     <!-- {% load static %}
-  <script src="{% static 'chatting/javascript/mainajax.js' %}"></script> -->
-    {% load staticfiles %}
-    <script src="{% static 'channels/js/websocketbridge.js' %}"></script>
-
+    <script src="{% static 'chatting/javascript/mainajax.js' %}"></script> -->
+    <!-- {% load staticfiles %}
+    <script src="{% static 'channels/js/websocketbridge.js' %}"></script> -->
+    <script src="https://connect-people-static.s3.us-east-2.amazonaws.com/websocketbridge.js"></script>
 
 
 

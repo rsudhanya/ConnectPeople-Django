@@ -46,7 +46,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             mrc = text_data_json['mrc']
             tz = str(timezone.localtime(timezone.now()))
             ctype = text_data_json['ctype']
-            #Message.objects.create(msender=User.objects.get(username=msender), mreceiver=User.objects.get(username=mrc), mbody=message, mdate=tz)
+            Message.objects.create(msender=User.objects.get(username=msender), mreceiver=User.objects.get(username=mrc), mbody=message, mdate=tz)
 
             # Send message to room group
             await self.channel_layer.group_send(

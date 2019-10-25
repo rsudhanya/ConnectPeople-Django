@@ -110,7 +110,7 @@ chatSocket.onmessage = function (e) {
         var s = data['msender'];
         var r = data['mrc'];
         var tz = data['tz'];
-        if(r === user){
+        if(r === user && s == mrc){
             msgwindow.innerHTML += `<div id=${mcounter.toString()} class="card-panel"><span style=" float: left; font-size: 1.3rem">${message}</span><br /><br /><span style="float: left; font-size: .7rem;" class="blue-text text-lighten-2">${formatDate(new Date(tz))}</span></div>`;  
             mcounter ++;
             document.getElementById((mcounter - 1).toString()).scrollIntoView();

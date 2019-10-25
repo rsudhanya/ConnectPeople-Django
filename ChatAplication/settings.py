@@ -29,12 +29,12 @@ SECRET_KEY = 'qda-__so-wl*$diq@_zmk(twj@a#erro#t=k*yblev@dv^a$l-'
 
 
 #By default
-# DEBUG = True
-# ALLOWED_HOSTS = []
+DEBUG = True
+ALLOWED_HOSTS = []
 
 #For EC2 Hosting
-DEBUG = os.environ.get('DEBUG', False)
-ALLOWED_HOSTS = ['*']
+# DEBUG = os.environ.get('DEBUG', False)
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,24 +90,24 @@ ASGI_APPLICATION = 'ChatAplication.routing.application'
 #         },
 #     },
 # }
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-#         },
-#     },
-# }
-
-#For EC2 Hosting 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.environ.get('REDIS_URL', 'redis://0.0.0.0:6379')],
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         },
     },
 }
+
+#For EC2 Hosting 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://0.0.0.0:6379')],
+#         },
+#     },
+# }
 
 
 # Database

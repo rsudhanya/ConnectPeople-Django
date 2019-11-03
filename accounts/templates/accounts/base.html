@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    {% block title %}
+
+    {% endblock %}
+
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
+
+  <body>
+    <div class="navbar-fixed">
+      <nav class="blue darken-4">
+        <div class="nav-wrapper">
+          <a href="/accounts/login" class="brand-logo">
+            Connect People
+          </a>
+          <ul class="right">
+            <li><a href="/accounts/login">Log in</a></li>
+            <li><a href="/accounts/register">Register</a></li>
+            <li><a href="/accounts/about">About</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% for m in messages %}
+    <script>
+      M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+    </script>
+    {% endfor %}
+    <!-- {% load static %}
+    <script src="{% static '/accounts/registerJS.js' %}"></script> -->
+  </body>
+</html>

@@ -100,7 +100,7 @@ if (window.location.protocol === 'https:') {
 var chatSocket = new WebSocket(
     protocol + '//' + window.location.host +
     '/ws/chat/' + roomName + '/');
-
+    
 chatSocket.onmessage = function (e) {
     var data = JSON.parse(e.data);
     switch(data['ctype'])

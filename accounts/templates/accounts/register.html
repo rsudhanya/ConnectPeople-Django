@@ -1,29 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Register</title>
-    <!-- Compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  </head>
+{% extends 'accounts/base.html' %}
 
-  <body>
-    <div class="navbar-fixed">
-      <nav class="blue darken-4">
-        <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">
-            Connect People
-          </a>
-        </div>
-      </nav>
-    </div>
+{% block title %}
+
+<title>Connect People :: Register</title>
+
+{% endblock %}
+
+{% block content %}
+
     <div class="container">
       <div class="container">
         <div class="container">
@@ -106,12 +90,4 @@
       </div>
     </div>
 
-    {% for m in messages %}
-    <script>
-      M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
-    </script>
-    {% endfor %}
-    <!-- {% load static %}
-    <script src="{% static '/accounts/registerJS.js' %}"></script> -->
-  </body>
-</html>
+{% endblock %}

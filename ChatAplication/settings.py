@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'django_extensions',
     'channels',
     'chatting',
     'accounts',

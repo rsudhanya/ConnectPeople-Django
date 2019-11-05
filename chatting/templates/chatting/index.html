@@ -1206,13 +1206,14 @@
       var roomName = {{ room_name_json }};
       var user = "{{ user.username }}";
       var mrc = "{{ rc.username }}";
+      var mrc_pk = "{{ rc.pk }}"
       var mrc_fname = "{{ rc.first_name }}";
       var mrc_lname = "{{ rc.last_name }}";
       var msglist = JSON.parse({{ msglist }});
       var uid = "{{ user.id }}";
       var friends = JSON.parse({{ friends }});
-      var elems = document.querySelectorAll('.modal');
-      var instances = M.Modal.init(elems, preventScrolling = true);
+      var friends_details = JSON.parse({{ friends_details }});
+      M.Modal.init(document.querySelectorAll('.modal'), preventScrolling = true);
     </script>
 
 

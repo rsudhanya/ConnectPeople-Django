@@ -19,6 +19,7 @@ def index(request, frndname=""):
     room_name = "chatRoom"
     if (user.is_authenticated):
         friends = serializers.serialize("json", User.objects.filter(is_superuser=False))
+        friends_details = serializers.serialize("json", UserProfileDetails.objects.all())
         try:
             msglist = []
             rc = User.objects.get(username=frndname)
@@ -28,7 +29,7 @@ def index(request, frndname=""):
             rc = ""
             if(frndname != ""):
                 raise Http404  
-        return render(request, 'chatting/index.html', {'room_name_json': mark_safe(json.dumps(room_name)), 'friends': mark_safe(json.dumps(friends)), 'msglist': mark_safe(json.dumps(msglist)), 'rc': rc})
+        return render(request, 'chatting/index.html', {'room_name_json': mark_safe(json.dumps(room_name)), 'friends': mark_safe(json.dumps(friends)), 'friends_details': mark_safe(json.dumps(friends_details)), 'msglist': mark_safe(json.dumps(msglist)), 'rc': rc})
     else:
         messages.info(request, "Please authenticate first")
         return redirect('accounts/login')

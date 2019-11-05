@@ -92,4 +92,17 @@ Make sure you have nginx and correct port(8000) configuration(With security grou
 
 daphne -p 8000 -b 0.0.0.0 ChatAplication.asgi:application
 
-Here static file(JS) file are saved in AWS S3 bucket
+For static file and media file we have to configure nginx and settings.py
+
+Do following:
+
+nginx
+
+vi /etc/nginx/sites-enabled/default
+
+sudo systemctl reload nginx
+
+settings.py
+STATIC_URL = '{Your Website name}/static/'
+MEDIA_URL = '{Your website name}/media/'
+Then run daphne

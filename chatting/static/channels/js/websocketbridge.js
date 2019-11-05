@@ -46,14 +46,24 @@ const formatDate = date =>  {
 
 window.onload = () =>
 {
+    var tempImage = "";
     try {
-     
+        console.log(mrc_pk);
         friends.forEach(element => {
-            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src="https://connect-people-static-image.s3.ap-south-1.amazonaws.com/user_logo.jpg" alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}<div id=${element['fields']['username'] + "active"} class="secondary-content"></div></a></li>`
+            friends_details.forEach(elem => {
+                if(elem['pk'] === element['pk'])
+                     tempImage = elem['fields']['image_file'];
+            });
+            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src=${tempImage} alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}<div id=${element['fields']['username'] + "active"} class="secondary-content"></div></a></li>`;
+            tempImage = ''
         });
         if(mrc != '')
         {
-            mainAppWindow.innerHTML = `<ul class="collection with-header"><li class="collection-item avatar"><a style="float: right;" href="/"><i class="material-icons prefix medium">clear</i></a><a href="/user_profile/${mrc}"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle"><h5 id="frndname" class="blue-text text-darken-4"></h5></a></li></ul><div id="msgwindow" class="card-panel" style="height: 370px; margin-bottom: 0; overflow: auto;"></div><div class=""><div class="row"><div class="input-field col s10" style="color: #0d47a1;"><textarea id="textarea1" class="materialize-textarea" name="message"></textarea><label style="color: #0d47a1" for="textarea1">Type a message</label></div><div class="col s1"><button  data-target="modal1" class="modal-trigger" style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" ><i class="medium material-icons blue-text">child_care</i></button></div><div class="col s1"><button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" ><i id="msgsend" class="medium material-icons blue-text col s1">send</i></button></div></div></div>`
+            friends_details.forEach(elem => {
+                if(elem['pk'] == mrc_pk)
+                    tempImage = elem['fields']['image_file'];
+            });
+            mainAppWindow.innerHTML = `<ul class="collection with-header"><li class="collection-item avatar"><a style="float: right;" href="/"><i class="material-icons prefix medium">clear</i></a><a href="/user_profile/${mrc}"><img src=${tempImage} alt="" class="circle"><h5 id="frndname" class="blue-text text-darken-4"></h5></a></li></ul><div id="msgwindow" class="card-panel" style="height: 370px; margin-bottom: 0; overflow: auto;"></div><div class=""><div class="row"><div class="input-field col s10" style="color: #0d47a1;"><textarea id="textarea1" class="materialize-textarea" name="message"></textarea><label style="color: #0d47a1" for="textarea1">Type a message</label></div><div class="col s1"><button  data-target="modal1" class="modal-trigger" style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" ><i class="medium material-icons blue-text">child_care</i></button></div><div class="col s1"><button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" ><i id="msgsend" class="medium material-icons blue-text col s1">send</i></button></div></div></div>`
             msglist.forEach(element => {
                 if(element['fields']['msender'] == uid)
                     document.getElementById("msgwindow").innerHTML += `<div id=${mcounter.toString()} class='card-panel blue lighten-2'><span class='white-text' style='float: right; font-size: 1.3rem'>${element['fields']['mbody']}</span><br><br><span style='float: right; font-size: .7rem;' class='blue-text text-lighten-2;'>${formatDate(new Date(element['fields']['mdate']))}</span></div>`;

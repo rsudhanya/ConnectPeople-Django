@@ -49,7 +49,7 @@ window.onload = () =>
     try {
      
         friends.forEach(element => {
-            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src="https://www.gstatic.com/webp/gallery/1.png" alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}<div id=${element['fields']['username'] + "active"} class="secondary-content"></div></a></li>`
+            friendlist.innerHTML += `<li id=${element['fields']['username']} onClick="mload(this.id)"><a class="collection-item black-text avatar"><img src="https://connect-people-static-image.s3.ap-south-1.amazonaws.com/user_logo.jpg" alt="" class="circle">${element['fields']['first_name'] + ' ' + element['fields']['last_name']}<div id=${element['fields']['username'] + "active"} class="secondary-content"></div></a></li>`
         });
         if(mrc != '')
         {
@@ -142,7 +142,7 @@ document.addEventListener('click', e => {
     if(e.srcElement.id == 'msgsend') {
           if (textarea1.value !== "") {
             var message = textarea1.value.trim();
-            textarea1.value = "";
+            textarea1.innerHTML = "";
             msgwindow.scrollTo(msgwindow.offsetHeight, msgwindow.offsetHeight);
             chatSocket.send(JSON.stringify({
               'message': message,

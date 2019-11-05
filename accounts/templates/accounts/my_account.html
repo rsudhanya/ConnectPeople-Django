@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Connect People :: My Account</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+
+    <div class="navbar-fixed">
+        <nav class="blue darken-4">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">
+                    Connect People
+                </a>
+                <ul class="right">
+                    <li><a href="/accounts/my_account">Hello {{ user.first_name }}</a></li>
+                    <li><a href="/accounts/logout">Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="col s6">
+            <div class="card">
+                <div class="card-image">
+                    <img height="400"
+                        src="https://connect-people-static-image.s3.ap-south-1.amazonaws.com/user_logo.jpg">
+                    <span class="card-title blue-text">{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+                <div class="card-content">
+                    <div class="input-field">
+                        <input style="font-size:1.5rem;" disabled value={{ user }} type="text"
+                            class="validate blue-text">
+                        <label for="disabled">Email</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Date of Birth</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Sex</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Nationality</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Lives in</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Work</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Education</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Work</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            <label for="disabled">Education</label>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <textarea style="font-size:1.5rem;" disabled value="" type="text"
+                            class="validate blue-text materialize-textarea"></textarea>
+                        <label for="disabled">Something</label>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="#modal1" class="modal-trigger">Edit</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s3"></div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <label id="modal1" class="modal">
+        <form id="myAccountForm" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="modal-content">
+                <div class="file-field input-field">
+                    <div class="btn blue">
+                        <span>Profile Image</span>
+                        <input name="image_file" type="file" id="myAccountImage">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate blue-text" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="first_name" value={{ user.first_name }} type="text"
+                            class="validate blue-text">
+                        <label>First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="last_name" value={{ user.last_name }} type="text"
+                            class="validate blue-text">
+                        <label>Last Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="dob" value="" type="text"
+                            class="validate blue-text datepicker">
+                        <label>Date of Birth</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select style="font-size:1.5rem;" class="blue-text" name="sex">
+                            <option value="" disabled selected>Choose your option</option>
+                            <option class="blue-text" value="Male">Male</option>
+                            <option class="blue-text" value="Female">Female</option>
+                            <option class="blue-text" value="Other">Other</option>
+                        </select>
+                        <label>Sex</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="nationality" value="" type="text" class="validate blue-text">
+                        <label>Nationality</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="lives_in" value="" type="text" class="validate blue-text">
+                        <label>Lives in</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="work" value="" type="text" class="validate blue-text">
+                        <label>Work</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="education" value="" type="text" class="validate blue-text">
+                        <label>Education</label>
+                    </div>
+                </div>
+                <label class="input-field">
+                    <textarea style="font-size:1.5rem;" name="something" value="" type="text"
+                        class="validate blue-text materialize-textarea"></textarea>
+                    <label>Something</label>
+                </label>
+                <br><br><br><br><br><br>
+                <div class="row">
+                    <div class="col s3"></div>
+                    <div class="input-field col s6">
+                        <input style="font-size:1.5rem;" name="current_password" value="" type="password" class="validate blue-text" required>
+                        <label>Re-type Your current password</label>
+                    </div>
+                    <div class="col s3"></div>
+                </div>
+            </label>
+            <div class="modal-footer">
+                    <a href="password_change">Change Password</a>
+                <button type="submit" class="waves-effect waves-green btn-flat">Update</button>
+            </div>
+        </form>
+    </label>
+
+
+    <script>
+        M.Modal.init(document.querySelectorAll('.modal'));
+        M.Datepicker.init(document.querySelectorAll('.datepicker'));
+        M.FormSelect.init(document.querySelectorAll('select'));
+    </script>
+
+    {% for m in messages %}
+    <script>
+        M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+    </script>
+    {% endfor %}
+    <!-- {% load static %}
+    <script src="{% static '/accounts/registerJS.js' %}"></script> -->
+    
+    <script>
+        var myAccountForm = document.getElementById('myAccountForm');
+        var myAccountImage = document.getElementById('myAccountImage');
+
+        myAccountForm.addEventListener('submit', e => {
+            e.preventDefault();
+            var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+            var sFileName = myAccountImage.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }    
+                if (!blnValid) {
+                    M.toast({ html: "It is not a image file", classes: "red-text text-accent-4" });
+                    return;
+                }
+            }
+            if(changePassword.value === changePassword1.value)
+                myAccountForm.submit();
+            else
+                M.toast({ html: "New password did not match", classes: "red-text text-accent-4" });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -9,6 +9,7 @@ from django.core import serializers
 from django.http import Http404  
 
 from .models import Message
+from accounts.models import UserProfileDetails
 
 # Create your views here.
 

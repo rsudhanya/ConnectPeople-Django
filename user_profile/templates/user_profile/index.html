@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Connect People :: My Account</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+        {% for userprofiledetail in userprofiledetails %}
+
+    <div class="navbar-fixed">
+        <nav class="blue darken-4">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">
+                    Connect People
+                </a>
+                <ul class="right">
+                    <li><a href="/accounts/my_account">Hello {{ user.first_name }}</a></li>
+                    <li><a href="/accounts/logout">Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="col s6">
+            <div class="card">
+                <div class="card-image">
+                    <img height="400"
+                        src="{% if userprofiledetail.image_file %}{{ userprofiledetail.image_file }}{% endif %}">
+                        {% for userpro in userprofile %}
+                    <span class="card-title blue-text">{{ userpro.first_name }} {{ userpro.last_name }}</span>
+                </div>
+                <div class="card-content">
+                    <div class="input-field">
+                        <input style="font-size:1.5rem;" disabled value={{ userpro.username }} type="text"
+                            class="validate blue-text">{% endfor %}
+                        <label for="disabled">Email</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.dob %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.dob }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Date of Birth</label>
+                        </div>
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.sex %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.sex }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Sex</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.nationality %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.nationality }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Nationality</label>
+                        </div>
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.lives_in %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.lives_in }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Lives in</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.work %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.work }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Work</label>
+                        </div>
+                        <div class="input-field col s6">
+                            {% if userprofiledetail.education %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.education }} type="text" class="validate blue-text">
+                            {% else %}
+                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
+                            <label for="disabled">Education</label>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <textarea style="font-size:1.5rem;" disabled type="text"
+                            class="validate blue-text materialize-textarea">{% if userprofiledetail.something %}{{ userprofiledetail.something }}{% endif %}</textarea>
+                        <label for="disabled">Something</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s3"></div>
+    </div>
+
+    {% endfor %}
+
+
+    {% for m in messages %}
+    <script>
+        M.toast({ html: "{{m}}", classes: "red-text text-accent-4" });
+    </script>
+    {% endfor %}
+    <!-- {% load static %}
+    <script src="{% static '/accounts/registerJS.js' %}"></script> -->
+
+</body>
+
+</html>

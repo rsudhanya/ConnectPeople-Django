@@ -88,7 +88,7 @@ def my_account(request):
         print(userprofiledetails)
         return render(request, 'accounts/my_account.html', {'userprofiledetails': userprofiledetails})
     else:
-        messages.info(request, "Invalid credentials!!!")
+        messages.info(request, "Please authenticate first")
         return redirect("/")
 
 

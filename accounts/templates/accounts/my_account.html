@@ -15,6 +15,7 @@
 </head>
 
 <body>
+        {% for userprofiledetail in userprofiledetails %}
 
     <div class="navbar-fixed">
         <nav class="blue darken-4">
@@ -36,7 +37,7 @@
             <div class="card">
                 <div class="card-image">
                     <img height="400"
-                        src="https://connect-people-static-image.s3.ap-south-1.amazonaws.com/user_logo.jpg">
+                        src="{% if userprofiledetail.image_file %}{{ userprofiledetail.image_file }}{% endif %}">
                     <span class="card-title blue-text">{{ user.first_name }} {{ user.last_name }}</span>
                 </div>
                 <div class="card-content">
@@ -47,50 +48,65 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
+                            {% if userprofiledetail.dob %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.dob }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Date of Birth</label>
                         </div>
                         <div class="input-field col s6">
+                            {% if userprofiledetail.sex %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.sex }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Sex</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
+                            {% if userprofiledetail.nationality %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.nationality }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Nationality</label>
                         </div>
                         <div class="input-field col s6">
+                            {% if userprofiledetail.lives_in %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.lives_in }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Lives in</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
+                            {% if userprofiledetail.work %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.work }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Work</label>
                         </div>
                         <div class="input-field col s6">
+                            {% if userprofiledetail.education %}
+                            <input style="font-size:1.5rem;" disabled value={{ userprofiledetail.education }} type="text" class="validate blue-text">
+                            {% else %}
                             <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
-                            <label for="disabled">Education</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
-                            <label for="disabled">Work</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input style="font-size:1.5rem;" disabled value="" type="text" class="validate blue-text">
+                            {% endif %}
                             <label for="disabled">Education</label>
                         </div>
                     </div>
                     <div class="input-field">
-                        <textarea style="font-size:1.5rem;" disabled value="" type="text"
-                            class="validate blue-text materialize-textarea"></textarea>
+                        <textarea style="font-size:1.5rem;" disabled type="text"
+                            class="validate blue-text materialize-textarea">{% if userprofiledetail.something %}{{ userprofiledetail.something }}{% endif %}</textarea>
                         <label for="disabled">Something</label>
                     </div>
                 </div>
+                
                 <div class="card-action">
                     <a href="#modal1" class="modal-trigger">Edit</a>
                 </div>
@@ -117,18 +133,18 @@
                 <div class="row">
                     <div class="input-field col s6">
                         <input style="font-size:1.5rem;" name="first_name" value={{ user.first_name }} type="text"
-                            class="validate blue-text">
+                            class="validate blue-text" required>
                         <label>First Name</label>
                     </div>
                     <div class="input-field col s6">
                         <input style="font-size:1.5rem;" name="last_name" value={{ user.last_name }} type="text"
-                            class="validate blue-text">
+                            class="validate blue-text" required>
                         <label>Last Name</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input style="font-size:1.5rem;" name="dob" value="" type="text"
+                        <input style="font-size:1.5rem;" name="dob" value="{% if userprofiledetail.dob %}{{ userprofiledetail.dob }}{% endif %}" type="text"
                             class="validate blue-text datepicker">
                         <label>Date of Birth</label>
                     </div>
@@ -144,27 +160,27 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input style="font-size:1.5rem;" name="nationality" value="" type="text" class="validate blue-text">
+                        <input style="font-size:1.5rem;" name="nationality" value="{% if userprofiledetail.nationality %}{{ userprofiledetail.nationality }}{% endif %}" type="text" class="validate blue-text">
                         <label>Nationality</label>
                     </div>
                     <div class="input-field col s6">
-                        <input style="font-size:1.5rem;" name="lives_in" value="" type="text" class="validate blue-text">
+                        <input style="font-size:1.5rem;" name="lives_in" value="{% if userprofiledetail.lives_in %}{{ userprofiledetail.lives_in }}{% endif %}" type="text" class="validate blue-text">
                         <label>Lives in</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input style="font-size:1.5rem;" name="work" value="" type="text" class="validate blue-text">
+                        <input style="font-size:1.5rem;" name="work" value="{% if userprofiledetail.work %}{{ userprofiledetail.work }}{% endif %}" type="text" class="validate blue-text">
                         <label>Work</label>
                     </div>
                     <div class="input-field col s6">
-                        <input style="font-size:1.5rem;" name="education" value="" type="text" class="validate blue-text">
+                        <input style="font-size:1.5rem;" name="education" value="{% if userprofiledetail.education %}{{ userprofiledetail.education }}{% endif %}" type="text" class="validate blue-text">
                         <label>Education</label>
                     </div>
                 </div>
                 <label class="input-field">
                     <textarea style="font-size:1.5rem;" name="something" value="" type="text"
-                        class="validate blue-text materialize-textarea"></textarea>
+                        class="validate blue-text materialize-textarea">{% if userprofiledetail.something %}{{ userprofiledetail.something }}{% endif %}</textarea>
                     <label>Something</label>
                 </label>
                 <br><br><br><br><br><br>
@@ -184,6 +200,8 @@
         </form>
     </label>
 
+
+    {% endfor %}
 
     <script>
         M.Modal.init(document.querySelectorAll('.modal'));
@@ -221,10 +239,8 @@
                     return;
                 }
             }
-            if(changePassword.value === changePassword1.value)
-                myAccountForm.submit();
-            else
-                M.toast({ html: "New password did not match", classes: "red-text text-accent-4" });
+            
+            myAccountForm.submit();
         });
     </script>
 

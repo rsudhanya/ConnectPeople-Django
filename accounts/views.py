@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
+
+from .models import UserProfileDetails
 
 # Create your views here.
 
@@ -27,7 +30,7 @@ def my_account(request):
     user = request.user
     if(user.is_authenticated):
         if(request.method == 'POST'):
-            first_name = last_name = dob = sex = nationality = lives_in = work = education = something = new_password = current_password = image_file = None
+            first_name = last_name = dob = sex = nationality = lives_in = work = education = something  = current_password = image_file = None
             first_name = request.POST["first_name"]
             last_name = request.POST["last_name"]
             dob = request.POST["dob"]
@@ -40,13 +43,32 @@ def my_account(request):
             work = request.POST["work"]
             education = request.POST["education"]
             something = request.POST["something"]
-            new_password = request.POST["new_password"]
             current_password = request.POST["current_password"]
             try:
                 image_file = request.FILES["image_file"]
             except:
                 print("Image Error")
             if(user.check_password(current_password)):
+                if(image_file != None):
+                    fs = FileSystemStorage()
+                    iname = fs.save(image_file.name, image_file)
+                    iname_url = fs.url(iname)
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(image_file=iname_url)
+                    print(iname_url)
+                if(dob != None or dob != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(dob=dob)
+                if(sex != None or sex != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(sex=sex)
+                if(nationality != None or nationality != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(nationality=nationality)
+                if(lives_in != None or lives_in != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(lives_in=lives_in)
+                if(work != None or work != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(work=work)
+                if(education != None or education != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(education=education)
+                if(something != None or something != ''):
+                    UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username))).update(something=something)
                 if(first_name == None or first_name == ''):
                     first_name = user.first_name
                 if(last_name == None or last_name == ''):
@@ -58,7 +80,13 @@ def my_account(request):
             else:
                 messages.info(request, "Invalid current Password")
             return redirect('/accounts/my_account')
-        return render(request, 'accounts/my_account.html')
+        try:
+            UserProfileDetails.objects.create(userprofileid=user)
+        except:
+            print("UserProfileDetails object already exists")
+        userprofiledetails = UserProfileDetails.objects.filter(userprofileid=User.objects.get(username=str(user.username)))
+        print(userprofiledetails)
+        return render(request, 'accounts/my_account.html', {'userprofiledetails': userprofiledetails})
     else:
         messages.info(request, "Invalid credentials!!!")
         return redirect("/")
@@ -97,6 +125,7 @@ def register(request):
                 user = User.objects.create_user(
                     username=email, password=rpassword, email=email, first_name=first_name, last_name=last_name)
                 user.save()
+                UserProfileDetails.objects.create(userprofileid=user)
                 return redirect('/')
         else:
             messages.info(request, "Password not Matching!!!")
